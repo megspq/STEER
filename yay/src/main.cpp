@@ -9,9 +9,9 @@
 //  D9 = lane 2 (middle, green, D)
 //  D8 = lane 3 (yellow, F)
 //  D7 = lane 4 (rightmost, white, G)
-const int ledPins[5] = {D0, D1, D4, D3, D2};
-const int buttonPins[5] = {D5, D6, D9, D8, D7};
-const char keys[5] = {'a', 's', 'g', 'f', 'd'};
+const int ledPins[5] = {D0, D1, D2, D3, D4};
+const int buttonPins[5] = {D5, D6, D7, D8, D9};
+const char keys[5] = {'a', 's', 'd', 'f', 'g'};
 
 USBHIDKeyboard Keyboard;
 bool lastReading[5] = {false, false, false, false, false};
