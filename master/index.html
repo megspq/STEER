@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>OA Piano Tiles</title>
+
+  <link rel="stylesheet" href="pianocss1.css">
+  <script src="https://unpkg.com/tone"></script>
+</head>
+
+<body>
+
+  <h1>Majestics</h1>
+
+  <div id="game">
+    <div class="lane pinkLane"></div>
+    <div class="lane blueLane"></div>
+    <div class="lane purpleLane"></div>
+    <div class="lane greyLane"></div>
+    <div class="lane greenLane"></div>
+  </div>
+
+  <div id="hirono">
+    <img id="hironoImg" src="hirono.png" alt="Hirono">
+    <div class="speech-bubble" id="speechBubble">
+      <span id="speechText"></span>
+    </div>
+  </div>
+
+  <div id="message">Press A S D F G, then press Start</div>
+
+  <button id="startGame">Start game</button>
+
+  <div id="score">
+    Score: <span id="scoreValue">0</span>
+  </div>
+
+  <div id="missCounter">
+    Misses: <span id="missValue">0</span>/5
+  </div>
+
+  <div id="gameOverScreen">
+    <h1>Game Over</h1>
+    <button onclick="location.reload()">Restart</button>
+  </div>
+
+  <script src="pianojs1.js"></script>
+
+</body>
+</html>

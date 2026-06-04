@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sky Piano</title>
+  <link rel="stylesheet" href="pianocss1.css">
+  <script src="https://unpkg.com/tone"></script>
+</head>
+<body>
+
+<!-- ================= HOME SCREEN ================= -->
+<div id="homeScreen" class="screen">
+  <button id="btnStart" class="imageLikeButton soundButton" aria-label="Start">Start</button>
+</div>
+
+<!-- ================= LEVEL SELECTION ================= -->
+<div id="levelScreen" class="screen" style="display:none;">
+  <div id="levelContainer">
+    <button class="levelHotspot level1 soundButton" onclick="selectLevel(1)" aria-label="Level 1"></button>
+    <button class="levelHotspot level2 soundButton" onclick="selectLevel(2)" aria-label="Level 2"></button>
+    <button class="levelHotspot level3 soundButton" onclick="selectLevel(3)" aria-label="Level 3"></button>
+  </div>
+  <button id="btnBackLevel" class="smallMenuButton soundButton">Back</button>
+</div>
+
+<!-- ================= GAME SCREEN ================= -->
+<div id="gameScreen" class="screen" style="display:none;">
+  <div class="gameShell">
+    <header class="gameHeader">
+      <h1>Sky Piano</h1>
+      <button id="pauseGame" class="pauseButton soundButton">Pause</button>
+    </header>
+
+    <div id="gameLayout">
+      <!-- LEFT PANEL: now playing -->
+      <aside id="musicPanel" class="sidePanel">
+        <div class="musicPanelInner">
+          <div class="recordPlayer" aria-hidden="true">
+            <div id="albumCover" class="albumCover">♪</div>
+            <div class="recordDisc">
+              <div class="recordLabel"></div>
+            </div>
+            <div class="recordNeedle"></div>
+          </div>
+
+          <div class="nowPlayingText">Now Playing</div>
+          <div class="visualPlayButton" aria-hidden="true"><span></span></div>
+
+          <div class="songInfoCard">
+            <div class="infoLabel">Song</div>
+            <div id="currentSongName" class="infoValue">Choose a level</div>
+            <div class="infoLabel">Level</div>
+            <div id="currentLevelName" class="infoValue">-</div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- CENTER: rhythm lanes -->
+      <main id="gameArea">
+        <div id="game">
+          <div class="lane pinkLane"></div>
+          <div class="lane blueLane"></div>
+          <div class="lane purpleLane"></div>
+          <div class="lane greyLane"></div>
+          <div class="lane greenLane"></div>
+        </div>
+
+        <div id="message" class="hiddenStatus">Press A S D F G</div>
+        <div id="songProgress" aria-label="Song progress">
+          <div id="songProgressFill"></div>
+        </div>
+
+        <div class="gameControls">
+          <button id="startGame" class="soundButton">Start game</button>
+          <button id="backHome" class="soundButton">Back to menu</button>
+        </div>
+      </main>
+
+      <!-- RIGHT PANEL: mascot + scoreboard -->
+      <aside id="scorePanel" class="sidePanel">
+        <div class="rightPanelInner">
+          <div class="speech-bubble" id="speechBubble">
+            <span id="speechText"></span>
+          </div>
+
+          <img id="mascotImg" src="mascot.png" alt="Mascot">
+
+          <div class="themeScoreboard" aria-label="Score and misses scoreboard">
+            <div class="scoreboardUnit" id="score">
+              <div class="scoreboardLabel">Score</div>
+              <div class="scoreboardDigits"><span id="scoreValue">0</span></div>
+            </div>
+            <div class="scoreboardUnit" id="missCounter">
+              <div class="scoreboardLabel">Misses</div>
+              <div class="scoreboardDigits"><span id="missValue">0</span><small>/10</small></div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <div id="gameOverScreen">
+    <div class="overlayCard">
+      <h1>Game Over</h1>
+      <p>Play Again?</p>
+      <button id="gameOverRestart" class="soundButton">Restart Level</button>
+      <button id="gameOverBack" class="soundButton">Back to Levels</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= LEVEL PASSED SCREEN ================= -->
+<div id="passScreen" class="screen" style="display:none;">
+  <div class="endScreenCard passCard">
+    <p>You cleared the level!</p>
+    <button id="btnGoPrize" class="bigContinueButton soundButton">Pick Prize</button>
+  </div>
+</div>
+
+<!-- ================= PICK PRIZE SCREEN ================= -->
+<div id="prizeScreen" class="screen" style="display:none;">
+  <div class="prizeGlassCard">
+    <div id="giftGrid">
+      <button class="giftBox soundButton" onclick="pickPrize(0)" aria-label="Gift box 1"></button>
+      <button class="giftBox soundButton" onclick="pickPrize(1)" aria-label="Gift box 2"></button>
+      <button class="giftBox soundButton" onclick="pickPrize(2)" aria-label="Gift box 3"></button>
+      <button class="giftBox soundButton" onclick="pickPrize(3)" aria-label="Gift box 4"></button>
+      <button class="giftBox soundButton" onclick="pickPrize(4)" aria-label="Gift box 5"></button>
+      <button class="giftBox soundButton" onclick="pickPrize(5)" aria-label="Gift box 6"></button>
+      <button class="giftBox soundButton" onclick="pickPrize(6)" aria-label="Gift box 7"></button>
+      <button class="giftBox soundButton" onclick="pickPrize(7)" aria-label="Gift box 8"></button>
+      <button class="giftBox soundButton" onclick="pickPrize(8)" aria-label="Gift box 9"></button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= REWARD REVEAL SCREEN ================= -->
+<div id="rewardScreen" class="screen" style="display:none;">
+  <div id="rewardCard" class="endScreenCard rewardGlassCard">
+    <img id="rewardImg" src="giftbox_open.png" alt="Reward">
+    <h2 id="rewardText">Congratulations! You have won a prize!</h2>
+    <button id="btnPlayAgain" class="playAgainButton soundButton" aria-label="Play Again">Play Again</button>
+  </div>
+</div>
+
+<!-- ================= PAUSE SCREEN ================= -->
+<div id="pauseScreen" class="pauseOverlay" style="display:none;">
+  <div class="overlayCard">
+    <h1>Paused</h1>
+    <button id="pauseRestart" class="soundButton">Restart Level</button>
+    <button id="pauseBack" class="soundButton">Back to Levels</button>
+  </div>
+</div>
+
+<script src="pianojs1.js"></script>
+</body>
+</html>
